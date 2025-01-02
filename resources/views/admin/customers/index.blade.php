@@ -52,19 +52,15 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach ($customers as $index => $customer)
+                                                @foreach ($customers as $index => $customer)
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
                                                     <td>{{ $customer->name }}</td>
                                                     <td><img src="{{ asset($customer->logo) }}" alt="customers Image" class="img-fluid" style="max-width: 150px;"></td>
-                                                    <td>{{ $customer->kategori->nama }}</td>
+                                                    <td>{{ $customer->kategori->name }}</td>
                                                     <td>
                                                         <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                                        <form action="{{ route('customers.destroy', $customer->id) }}" method="POST" style="display:inline;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                                        </form>
+                                                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" data-id="{{ $customer->id }}">Delete</button>
                                                     </td>
                                                 </tr>
                                                 @endforeach
@@ -73,7 +69,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
 
@@ -104,6 +100,31 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this customer?
+                </div>
+                <div class="modal-footer">
+                    <form id="deleteForm" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap core JavaScript -->
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -120,6 +141,16 @@
     <!-- Page level custom scripts -->
     <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
+
+    <script>
+        // Fill the delete form with the appropriate action URL
+        $('#deleteModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var id = button.data('id');
+            var action = "{{ url('customers') }}/" + id;
+            $('#deleteForm').attr('action', action);
+        });
+    </script>
 
 </body>
 

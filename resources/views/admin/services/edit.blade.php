@@ -22,40 +22,50 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Create Category Products</h1>
+
+                    <!-- Content Row -->
+
+                    <div class="row">
+
+
+
+
                     </div>
 
                     <!-- Content Row -->
                     <div class="row">
 
-                        <!-- Form Column -->
-                        <div class="col-lg-6">
-                            <div class="card shadow-sm">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Add New Category</h6>
+                        <!-- Content Column -->
+                        <div class="col-lg-6 mb-4">
+                            <h1>Edit Service</h1>
+                            <form action="{{ route('services.update', $service->id) }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT') <!-- Menambahkan method PUT untuk update -->
+
+                                <div class="form-group">
+                                    <label for="name">Name:</label>
+                                    <input type="text" id="name" name="name" class="form-control" value="{{ $service->name }}" required>
                                 </div>
-                                <div class="card-body">
-                                    <form action="{{ route('categories.store') }}" method="POST">
-                                        @csrf
-                                        <div class="form-group">
-                                            <label for="categoryName" class="font-weight-bold">Category Name</label>
-                                            <input type="text" id="categoryName" name="name" class="form-control"
-                                                placeholder="Enter category name" required>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary btn-block">
-                                            <i class="fas fa-save"></i> Save
-                                        </button>
-                                    </form>
+
+                                <div class="form-group">
+                                    <label for="image">Image:</label>
+                                    <input type="file" id="image" name="image" class="form-control">
                                 </div>
-                            </div>
+
+                                <div class="form-group">
+                                    <label for="description">Description:</label>
+                                    <textarea id="description" name="description" class="form-control" rows="4">{{ $service->description }}</textarea>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </form>
+
+
+
+
                         </div>
-
-                        <!-- Empty Space Column -->
-                        <div class="col-lg-6"></div>
-
                     </div>
+
                 </div>
                 <!-- /.container-fluid -->
 

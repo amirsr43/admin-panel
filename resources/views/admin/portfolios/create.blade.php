@@ -11,7 +11,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-6 mb-4">
-                            <h1>Create Customers</h1>
+                            <h1>Create Portfolio</h1>
 
                             @if ($errors->any())
                             <div class="alert alert-danger">
@@ -23,7 +23,7 @@
                             </div>
                             @endif
 
-                            <form action="{{ route('customers.store') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('portfolios.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
 
                                 <div class="form-group">
@@ -37,36 +37,43 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="logo">Logo:</label>
-                                    <input type="file" id="logo" name="logo"
-                                        class="form-control @error('logo') is-invalid @enderror">
-                                    @error('logo')
+                                    <label for="image">Image:</label>
+                                    <input type="file" id="image" name="image"
+                                        class="form-control @error('image') is-invalid @enderror">
+                                    @error('image')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="published">Published Date:</label>
+                                    <input type="date" id="published" name="published"
+                                        class="form-control @error('published') is-invalid @enderror"
+                                        value="{{ old('published') }}" required>
+                                    @error('published')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
                                 <div class="form-group">
-                                    <label for="kategori_id">kategori <span class="text-danger">*</span></label>
-                                    <select id="kategori_id" name="kategori_id"
-                                        class="form-control @error('kategori_id') is-invalid @enderror" required>
-                                        <option value="">Select kategori</option>
-                                        @foreach($kategoris as $kategori)
-                                        <option value="{{ $kategori->id }}"
-                                            {{ old('kategori_id') == $kategori->id ? 'selected' : '' }}>
-                                            {{ $kategori->name }}
+                                    <label for="group_id">Group <span class="text-danger">*</span></label>
+                                    <select id="group_id" name="group_id"
+                                        class="form-control @error('group_id') is-invalid @enderror" required>
+                                        <option value="">Select Group</option>
+                                        @foreach($groups as $group)
+                                        <option value="{{ $group->id }}"
+                                            {{ old('group_id') == $group->id ? 'selected' : '' }}>
+                                            {{ $group->name }}
                                         </option>
                                         @endforeach
                                     </select>
-                                    @error('kategori_id')
+                                    @error('group_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
-                                
-
                                 <button type="submit" class="btn btn-primary">Save</button>
-                                <a href="{{ route('products.index') }}" class="btn btn-secondary">Cancel</a>
+                                <a href="{{ route('portfolios.index') }}" class="btn btn-secondary">Cancel</a>
                             </form>
                         </div>
                     </div>

@@ -22,35 +22,40 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-
-                    <!-- Content Row -->
-
-                    <div class="row">
-
-
-
-
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Create Category Customers</h1>
                     </div>
 
                     <!-- Content Row -->
                     <div class="row">
 
-                        <!-- Content Column -->
-                        <div class="col-lg-6 mb-4">
-
-
-                            <h1>Create Category Customer</h1>
-                            <form action="{{ route('kategoris.store') }}" method="POST">
-                                @csrf
-                                <label>Name:</label>
-                                <input type="text" name="nama" required>
-                                <button type="submit">Save</button>
-                            </form>
-
-
+                        <!-- Form Column -->
+                        <div class="col-lg-6">
+                            <div class="card shadow-sm">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Add New Category</h6>
+                                </div>
+                                <div class="card-body">
+                                    <form action="{{ route('kategoris.store') }}" method="POST">
+                                        @csrf
+                                        <div class="form-group">
+                                            <label for="categoryName" class="font-weight-bold">Category Name</label>
+                                            <input type="text" id="categoryName" name="name" class="form-control"
+                                                placeholder="Enter category name" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-block">
+                                            <i class="fas fa-save"></i> Save
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
+                        <!-- Empty Space Column -->
+                        <div class="col-lg-6"></div>
+
+                    </div>
                 </div>
                 <!-- /.container-fluid -->
 

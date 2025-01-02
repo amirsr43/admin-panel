@@ -22,36 +22,42 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-
-                    <!-- Content Row -->
-
-                    <div class="row">
-
-
-
-
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Edit Category Customers</h1>
                     </div>
 
                     <!-- Content Row -->
                     <div class="row">
 
-                        <!-- Content Column -->
-                        <div class="col-lg-6 mb-4">
-
-
-                            <h1>Edit Category Customer</h1>
-                            <form action="{{ route('kategoris.update', $kategori->id) }}" method="POST">
-                                @csrf
-                                @method('PUT') <!-- Menggunakan metode PUT untuk update -->
-                                <label>Name:</label>
-                                <input type="text" name="nama" value="{{ $kategori->nama }}" required> <!-- Menampilkan nilai default -->
-                                <button type="submit">Update</button>
-                            </form>
-
-
+                        <!-- Form Column -->
+                        <div class="col-lg-6">
+                            <div class="card shadow-sm">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Edit Category</h6>
+                                </div>
+                                <div class="card-body">
+                                    <form action="{{ route('kategoris.update', $kategori->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="form-group">
+                                            <label for="categoryName" class="font-weight-bold">Category Name</label>
+                                            <input type="text" id="categoryName" name="name" 
+                                                value="{{ $kategori->name }}" 
+                                                class="form-control" placeholder="Enter category name" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-success btn-block">
+                                            <i class="fas fa-edit"></i> Update
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
+                        <!-- Empty Space Column -->
+                        <div class="col-lg-6"></div>
+
+                    </div>
                 </div>
                 <!-- /.container-fluid -->
 

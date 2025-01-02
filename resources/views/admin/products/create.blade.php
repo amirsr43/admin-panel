@@ -54,7 +54,7 @@
                                         @foreach($categories as $category)
                                         <option value="{{ $category->id }}"
                                             {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                                            {{ $category->name }} (ID: {{ $category->id }})
+                                            {{ $category->name }}
                                         </option>
                                         @endforeach
                                     </select>

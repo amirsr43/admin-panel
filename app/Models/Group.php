@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Kategori extends Model
+class Group extends Model
 {
     protected $fillable = ['name'];
-    protected $table = 'kategoris';
+    protected $table = 'groups';
 
-    public function customers()
+    public function portfolios()
     {
-        return $this->hasMany(Customer::class);
+        return $this->hasMany(Portfolio::class);
     }
 }

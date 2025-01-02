@@ -24,7 +24,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Create Category Products</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Create Group Portfolio</h1>
                     </div>
 
                     <!-- Content Row -->
@@ -34,15 +34,15 @@
                         <div class="col-lg-6">
                             <div class="card shadow-sm">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Add New Category</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Add New Group</h6>
                                 </div>
                                 <div class="card-body">
-                                    <form action="{{ route('categories.store') }}" method="POST">
+                                    <form action="{{ route('groups.store') }}" method="POST">
                                         @csrf
                                         <div class="form-group">
-                                            <label for="categoryName" class="font-weight-bold">Category Name</label>
-                                            <input type="text" id="categoryName" name="name" class="form-control"
-                                                placeholder="Enter category name" required>
+                                            <label for="groupName" class="font-weight-bold">Group Name</label>
+                                            <input type="text" id="groupName" name="name" class="form-control"
+                                                placeholder="Enter group name" required>
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-block">
                                             <i class="fas fa-save"></i> Save

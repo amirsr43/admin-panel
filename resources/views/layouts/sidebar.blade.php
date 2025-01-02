@@ -24,27 +24,19 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-        Addons
+        Management
     </div>
-
-    <!-- Nav Item - Charts -->
 
     <li class="nav-item">
         <a class="nav-link" href="{{ route('products.index') }}">
-            <i class="fa-solid fa-box-open"></i>
+            <i class="fa-solid fa-box"></i>
             <span>Products</span>
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">
-            <i class="fa-solid fa-box-open"></i>
+        <a class="nav-link" href="{{ route('services.index') }}">
+            <i class="fa-solid fa-gear"></i>
             <span>Services</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">
-            <i class="fa-solid fa-briefcase"></i>
-            <span>Portfolio</span>
         </a>
     </li>
     <li class="nav-item">
@@ -54,15 +46,33 @@
         </a>
     </li>
     <li class="nav-item">
+        <a class="nav-link" href="{{ route('portfolios.index') }}">
+            <i class="fa-solid fa-briefcase"></i>
+            <span>Portfolio</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('associations.index') }}">
+            <i class="fa-solid fa-handshake"></i>
+            <span>Associations</span>
+        </a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="{{ route('categories.index') }}">
-            <i class="fas fa-fw fa-box"></i>
-            <span>Category Product</span>
+            <i class="fas fa-fw fa-tags"></i>
+            <span>Product Categories</span>
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ route('kategoris.index') }}">
-            <i class="fas fa-fw fa-box"></i>
-            <span>Category Customer</span>
+            <i class="fas fa-fw fa-user-tag"></i>
+            <span>Customer Categories</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('groups.index') }}">
+            <i class="fas fa-fw fa-layer-group"></i>
+            <span>Portfolio Groups</span>
         </a>
     </li>
     <!-- Divider -->

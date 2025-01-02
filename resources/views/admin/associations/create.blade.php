@@ -22,40 +22,45 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Create Category Products</h1>
+
+                    <!-- Content Row -->
+
+                    <div class="row">
+
+
+
+
                     </div>
 
                     <!-- Content Row -->
                     <div class="row">
 
-                        <!-- Form Column -->
-                        <div class="col-lg-6">
-                            <div class="card shadow-sm">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Add New Category</h6>
+                        <!-- Content Column -->
+                        <div class="col-lg-6 mb-4">
+                            <h1>Create Association</h1>
+                            <form action="{{ route('associations.store') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+
+                                <div class="form-group">
+                                    <label for="name">Name:</label>
+                                    <input type="text" id="name" name="name" class="form-control" required>
                                 </div>
-                                <div class="card-body">
-                                    <form action="{{ route('categories.store') }}" method="POST">
-                                        @csrf
-                                        <div class="form-group">
-                                            <label for="categoryName" class="font-weight-bold">Category Name</label>
-                                            <input type="text" id="categoryName" name="name" class="form-control"
-                                                placeholder="Enter category name" required>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary btn-block">
-                                            <i class="fas fa-save"></i> Save
-                                        </button>
-                                    </form>
+
+                                <div class="form-group">
+                                    <label for="logo">Logo:</label>
+                                    <input type="file" id="logo" name="logo" class="form-control">
                                 </div>
-                            </div>
+
+                                <button type="submit" class="btn btn-primary">Save</button>
+                                <a href="{{ route('associations.index') }}" class="btn btn-secondary">Cancel</a>
+                            </form>
+
+
+
+
                         </div>
-
-                        <!-- Empty Space Column -->
-                        <div class="col-lg-6"></div>
-
                     </div>
+
                 </div>
                 <!-- /.container-fluid -->
 
