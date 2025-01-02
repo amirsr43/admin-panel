@@ -9,8 +9,7 @@ use Illuminate\Notifications\Notifiable;
 class Service extends Model
 {
     use Notifiable;
+    use HasFactory;
 
     protected $fillable = ['name', 'image', 'description'];
-
-    protected $hidden = ['name', 'image', 'description'];
 }

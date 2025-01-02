@@ -11,5 +11,4 @@ class Association extends Model
     use Notifiable;
     protected $fillable = ['name', 'logo'];
 
-    protected $hidden = ['name', 'logo'];
 }

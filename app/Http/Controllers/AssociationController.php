@@ -27,14 +27,14 @@ class AssociationController extends Controller
             'logo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
-        // Proses penyimpanan data
-        $data = $request->only(['name', 'logo']);
+        $data = $request->only(['name']);
 
         // Proses penyimpanan gambar
         if ($request->hasFile('logo')) {
-            $imageName = time() . '_' . $request->file('logo')->getClientOriginalName();
-            $request->file('logo')->move(public_path('images/associations'), $imageName);
-            $data['logo'] = 'images/associations/' . $imageName;
+            $logo = $request->file('logo');
+            $hashName = md5(time() . $logo->getClientOriginalName()) . '.' . $logo->getClientOriginalExtension();
+            $logo->move(public_path('images/associations'), $hashName);
+            $data['logo'] = 'images/associations/' . $hashName;
         }
 
         Association::create($data);
@@ -55,17 +55,15 @@ class AssociationController extends Controller
             'logo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
-        // Proses update data
-        $data = $request->only(['name', 'logo']);
+        $data = $request->only(['name']);
 
         if ($request->hasFile('logo')) {
-            // Hapus gambar lama jika ada
             $this->deleteImageIfExists($association->logo);
 
-            // Simpan gambar baru
-            $imageName = time() . '_' . $request->file('logo')->getClientOriginalName();
-            $request->file('logo')->move(public_path('images/associations'), $imageName);
-            $data['logo'] = 'images/associations/' . $imageName;
+            $logo = $request->file('logo');
+            $hashName = md5(time() . $logo->getClientOriginalName()) . '.' . $logo->getClientOriginalExtension();
+            $logo->move(public_path('images/associations'), $hashName);
+            $data['logo'] = 'images/associations/' . $hashName;
         }
 
         $association->update($data);
@@ -75,12 +73,11 @@ class AssociationController extends Controller
 
     public function destroy(Association $association)
     {
-        // Hapus gambar jika ada
         $this->deleteImageIfExists($association->logo);
 
         $association->delete();
 
-        return redirect()->route('associations.index')->with('success', 'association deleted successfully.');
+        return redirect()->route('associations.index')->with('success', 'Association deleted successfully.');
     }
 
     private function deleteImageIfExists($imagePath)
@@ -90,4 +87,3 @@ class AssociationController extends Controller
         }
     }
 }
-
