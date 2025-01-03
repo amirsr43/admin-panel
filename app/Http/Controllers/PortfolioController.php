@@ -9,10 +9,24 @@ use Illuminate\Support\Facades\File;
 
 class PortfolioController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $portfolios = Portfolio::with('group')->get();
-        return view('admin.portfolios.index', compact('portfolios'));
+        $query = Portfolio::with('Group');
+
+        // Pencarian berdasarkan nama
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter berdasarkan kategori
+        if ($request->filled('group_id')) {
+            $query->where('group_id', $request->group_id);
+        }
+
+        $portfolios = $query->paginate(10);
+        $groups = Group::all();
+
+        return view('admin.portfolios.index', compact('portfolios', 'groups'));
     }
 
     public function create()

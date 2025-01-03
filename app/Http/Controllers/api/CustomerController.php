@@ -118,5 +118,16 @@ class CustomerController extends Controller
 
         return response()->json(['message' => 'Customer deleted successfully.']);
     }
-}
 
+    // Menampilkan customer berdasarkan kategori
+    public function showByCategory($kategoriId)
+    {
+        $customers = Customer::where('kategori_id', $kategoriId)->with('kategori')->get();
+
+        if ($customers->isEmpty()) {
+            return response()->json(['message' => 'No customers found in this category.'], 404);
+        }
+
+        return response()->json($customers);
+    }
+}

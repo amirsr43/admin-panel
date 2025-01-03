@@ -27,6 +27,11 @@
                         <div class="col-lg-12">
                             <h1 class="mb-3">Associations</h1>
                             <a href="{{ route('associations.create') }}" class="btn btn-primary mb-3">Create Association</a>
+                            <form method="GET" action="{{ route('associations.index') }}" class="form-inline mb-3">
+                                <input type="text" name="search" class="form-control mr-2"
+                                    placeholder="Search associations..." value="{{ request('search') }}">
+                                <button type="submit" class="btn btn-outline-primary">Search</button>
+                            </form>
                         </div>
                     </div>
 
@@ -64,6 +69,9 @@
                                                 @endforeach
                                             </tbody>
                                         </table>
+                                    </div>
+                                    <div class="pagination-container d-flex justify-content-center">
+                                        {{ $associations->links('pagination::bootstrap-5') }}
                                     </div>
                                 </div>
                             </div>

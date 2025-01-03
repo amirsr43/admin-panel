@@ -27,6 +27,23 @@
                         <div class="col-lg-12">
                             <h1 class="mb-3">Products</h1>
                             <a href="{{ route('products.create') }}" class="btn btn-primary mb-3">Create Product</a>
+                            <form method="GET" action="{{ url('products') }}" class="form-inline">
+                                <div class="form-group mr-2">
+                                    <input type="text" name="search" class="form-control" placeholder="Search by name"
+                                        value="{{ request('search') }}">
+                                </div>
+                                <div class="form-group mr-2">
+                                    <select name="category_id" class="form-control">
+                                        <option value="">All Categories</option>
+                                        @foreach($categories as $category)
+                                            <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                                                {{ $category->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-outline-primary">Search</button>
+                            </form>
                         </div>
                     </div>
 
@@ -52,24 +69,38 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach ($products as $index => $product)
-                                                <tr>
-                                                    <td>{{ $index + 1 }}</td>
-                                                    <td>{{ $product->name }}</td>
-                                                    <td><img src="{{ asset($product->image) }}" alt="Product Image" class="img-fluid" style="max-width: 150px;"></td>
-                                                    <td>{{ $product->category->name }}</td>
-                                                    <td>
-                                                        <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" data-id="{{ $product->id }}">Delete</button>
-                                                    </td>
-                                                </tr>
-                                                @endforeach
+                                                @forelse ($products as $index => $product)
+                                                    <tr>
+                                                        <td>{{ $products->firstItem() + $index }}</td>
+                                                        <td>{{ $product->name }}</td>
+                                                        <td>
+                                                            <img src="{{ asset($product->image) }}" alt="Product Image"
+                                                                class="img-fluid" style="max-width: 150px;">
+                                                        </td>
+                                                        <td>{{ $product->category->name ?? 'No Category' }}</td>
+                                                        <td>
+                                                            <a href="{{ route('products.edit', $product->id) }}"
+                                                                class="btn btn-warning btn-sm">Edit</a>
+                                                            <button class="btn btn-danger btn-sm" data-toggle="modal"
+                                                                data-target="#deleteModal"
+                                                                data-id="{{ $product->id }}">Delete</button>
+                                                        </td>
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="5" class="text-center">No products found.</td>
+                                                    </tr>
+                                                @endforelse
                                             </tbody>
+
                                         </table>
+                                    </div>
+                                    <div class="pagination-container d-flex justify-content-center">
+                                        {{ $products->links('pagination::bootstrap-5') }}
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
 
@@ -100,7 +131,8 @@
         <i class="fas fa-angle-up"></i>
     </a>
     <!-- Delete Confirmation Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -143,7 +175,7 @@
 
     <script>
         // Fill the delete form with the appropriate action URL
-        $('#deleteModal').on('show.bs.modal', function(event) {
+        $('#deleteModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var id = button.data('id');
             var action = "{{ url('products') }}/" + id;

@@ -27,6 +27,23 @@
                         <div class="col-lg-12">
                             <h1 class="mb-3">Customers</h1>
                             <a href="{{ route('customers.create') }}" class="btn btn-primary mb-3">Create Customer</a>
+                            <form method="GET" action="{{ url('customers') }}" class="form-inline">
+                                <div class="form-group mr-2">
+                                    <input type="text" name="search" class="form-control" placeholder="Search by name"
+                                        value="{{ request('search') }}">
+                                </div>
+                                <div class="form-group mr-2">
+                                    <select name="kategori_id" class="form-control">
+                                        <option value="">All Categories</option>
+                                        @foreach($kategoris as $kategori)
+                                            <option value="{{ $kategori->id }}" {{ request('kategori_id') == $kategori->id ? 'selected' : '' }}>
+                                                {{ $kategori->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-outline-primary">Search</button>
+                            </form>
                         </div>
                     </div>
 
@@ -52,24 +69,35 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($customers as $index => $customer)
-                                                <tr>
-                                                    <td>{{ $index + 1 }}</td>
-                                                    <td>{{ $customer->name }}</td>
-                                                    <td><img src="{{ asset($customer->logo) }}" alt="customers Image" class="img-fluid" style="max-width: 150px;"></td>
-                                                    <td>{{ $customer->kategori->name }}</td>
-                                                    <td>
-                                                        <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" data-id="{{ $customer->id }}">Delete</button>
-                                                    </td>
-                                                </tr>
-                                                @endforeach
+                                                @forelse ($customers as $index => $customer)
+                                                    <tr>
+                                                        <td>{{ $customers->firstItem() + $index }}</td>
+                                                        <td>{{ $customer->name }}</td>
+                                                        <td><img src="{{ asset($customer->logo) }}" alt="customers Image"
+                                                                class="img-fluid" style="max-width: 150px;"></td>
+                                                        <td>{{ $customer->kategori->name }}</td>
+                                                        <td>
+                                                            <a href="{{ route('customers.edit', $customer->id) }}"
+                                                                class="btn btn-warning btn-sm">Edit</a>
+                                                            <button class="btn btn-danger btn-sm" data-toggle="modal"
+                                                                data-target="#deleteModal"
+                                                                data-id="{{ $customer->id }}">Delete</button>
+                                                        </td>
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="5" class="text-center">No customers found.</td>
+                                                    </tr>
+                                                @endforelse
                                             </tbody>
                                         </table>
                                     </div>
+                                    <div class="pagination-container d-flex justify-content-center">
+                                        {{ $customers->links('pagination::bootstrap-5') }}
+                                    </div>
+
                                 </div>
                             </div>
-
                         </div>
                     </div>
 
@@ -101,7 +129,8 @@
     </a>
 
     <!-- Delete Confirmation Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -144,13 +173,15 @@
 
     <script>
         // Fill the delete form with the appropriate action URL
-        $('#deleteModal').on('show.bs.modal', function(event) {
+        $('#deleteModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var id = button.data('id');
             var action = "{{ url('customers') }}/" + id;
             $('#deleteForm').attr('action', action);
         });
     </script>
+
+
 
 </body>
 

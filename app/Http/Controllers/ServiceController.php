@@ -8,11 +8,19 @@ use Illuminate\Support\Facades\File;
 
 class ServiceController extends Controller
 {
-    public function index()
-    {
-        $services = Service::all();
-        return view('admin.services.index', compact('services'));
+    public function index(Request $request)
+{
+    $query = Service::query();
+
+    // Filter berdasarkan pencarian
+    if ($request->has('search') && $request->search) {
+        $query->where('name', 'LIKE', '%' . $request->search . '%');
     }
+
+    $services = $query->paginate(10);
+    return view('admin.services.index', compact('services'));
+}
+
 
     public function create()
     {

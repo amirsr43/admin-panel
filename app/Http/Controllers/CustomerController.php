@@ -9,11 +9,26 @@ use Illuminate\Support\Facades\File;
 
 class CustomerController extends Controller
 {
-    public function index()
-    {
-        $customers = Customer::with('kategori')->get();
-        return view('admin.customers.index', compact('customers'));
+    public function index(Request $request)
+{
+    $query = Customer::with('kategori');
+
+    // Pencarian berdasarkan nama
+    if ($request->filled('search')) {
+        $query->where('name', 'like', '%' . $request->search . '%');
     }
+
+    // Filter berdasarkan kategori
+    if ($request->filled('kategori_id')) {
+        $query->where('kategori_id', $request->kategori_id);
+    }
+
+    $customers = $query->paginate(10);
+    $kategoris = Kategori::all();
+
+    return view('admin.customers.index', compact('customers', 'kategoris'));
+}
+
 
     public function create()
     {
@@ -87,4 +102,7 @@ class CustomerController extends Controller
             File::delete(public_path($imagePath));
         }
     }
+
+    
+    
 }

@@ -119,4 +119,22 @@ class PortfolioController extends Controller
 
         return response()->json(['message' => 'Portfolio deleted successfully.']);
     }
+
+    // Menampilkan portfolio berdasarkan group
+    public function portfoliosByGroup($groupId)
+    {
+        $group = Group::find($groupId);
+
+        if (!$group) {
+            return response()->json(['message' => 'Group not found.'], 404);
+        }
+
+        $portfolios = Portfolio::where('group_id', $groupId)->with('group')->get();
+
+        if ($portfolios->isEmpty()) {
+            return response()->json(['message' => 'No portfolios found in this group.'], 404);
+        }
+
+        return response()->json($portfolios);
+    }
 }

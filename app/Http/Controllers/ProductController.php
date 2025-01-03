@@ -9,11 +9,26 @@ use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with('category')->get();
-        return view('admin.products.index', compact('products'));
+        $query = Product::with('category');
+
+        // Pencarian berdasarkan nama
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter berdasarkan kategori
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        $products = $query->paginate(10);
+        $categories = Category::all();
+
+        return view('admin.products.index', compact('products', 'categories'));
     }
+
 
     public function create()
     {
@@ -26,10 +41,15 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'nullable|exists:categories,id',
         ]);
 
-        $data = $request->all();
+        $data = $request->only(['name', 'category_id']);
+
+        // Tetapkan `category_id` menjadi null jika tidak diisi
+        if (empty($data['category_id'])) {
+            $data['category_id'] = null;
+        }
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -45,19 +65,25 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-        $categories = Category::all();
+        $categories = Category::all(); // Ambil semua kategori untuk dropdown
         return view('admin.products.edit', compact('product', 'categories'));
     }
+
 
     public function update(Request $request, Product $product)
     {
         $request->validate([
             'name' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'nullable|exists:categories,id',
         ]);
 
         $data = $request->only(['name', 'category_id']);
+
+        // Tetapkan `category_id` menjadi null jika tidak diisi
+        if (empty($data['category_id'])) {
+            $data['category_id'] = null;
+        }
 
         if ($request->hasFile('image')) {
             if ($product->image && File::exists(public_path($product->image))) {
@@ -74,6 +100,7 @@ class ProductController extends Controller
 
         return redirect()->route('products.index')->with('success', 'Product updated successfully.');
     }
+
 
     public function destroy(Product $product)
     {

@@ -27,8 +27,14 @@
                         <div class="col-lg-12">
                             <h1 class="mb-3">Services</h1>
                             <a href="{{ route('services.create') }}" class="btn btn-primary mb-3">Create Service</a>
+                            <form method="GET" action="{{ route('services.index') }}" class="form-inline mb-3">
+                                <input type="text" name="search" class="form-control mr-2"
+                                    placeholder="Search services..." value="{{ request('search') }}">
+                                <button type="submit" class="btn btn-outline-primary">Search</button>
+                            </form>
                         </div>
                     </div>
+
 
                     <!-- Content Row -->
                     <div class="row">
@@ -52,24 +58,31 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach ($services as $index => $service)
-                                                <tr>
-                                                    <td>{{ $index + 1 }}</td>
-                                                    <td>{{ $service->name }}</td>
-                                                    <td><img src="{{ asset($service->image) }}" alt="Service Image" class="img-fluid" style="max-width: 150px;"></td>
-                                                    <td>{{ $service->description }}</td>
-                                                    <td>
-                                                        <a href="{{ route('services.edit', $service->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" data-id="{{ $service->id }}">Delete</button>
-                                                    </td>
-                                                </tr>
+                                                @foreach ($services as $index => $service)
+                                                    <tr>
+                                                        <td>{{ $index + 1 }}</td>
+                                                        <td>{{ $service->name }}</td>
+                                                        <td><img src="{{ asset($service->image) }}" alt="Service Image"
+                                                                class="img-fluid" style="max-width: 150px;"></td>
+                                                        <td>{{ $service->description }}</td>
+                                                        <td>
+                                                            <a href="{{ route('services.edit', $service->id) }}"
+                                                                class="btn btn-warning btn-sm">Edit</a>
+                                                            <button class="btn btn-danger btn-sm" data-toggle="modal"
+                                                                data-target="#deleteModal"
+                                                                data-id="{{ $service->id }}">Delete</button>
+                                                        </td>
+                                                    </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
                                     </div>
+                                    <div class="pagination-container d-flex justify-content-center">
+                                        {{ $services->links('pagination::bootstrap-5') }}
+                                    </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
 
@@ -101,7 +114,8 @@
     </a>
 
     <!-- Delete Confirmation Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -144,7 +158,7 @@
 
     <script>
         // Fill the delete form with the appropriate action URL
-        $('#deleteModal').on('show.bs.modal', function(event) {
+        $('#deleteModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var id = button.data('id');
             var action = "{{ url('services') }}/" + id;

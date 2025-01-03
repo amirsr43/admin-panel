@@ -18,7 +18,6 @@
             <span>Dashboard</span></a>
     </li>
 
-
     <!-- Divider -->
     <hr class="sidebar-divider">
 

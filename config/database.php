@@ -105,6 +105,7 @@ return [
     | the migrations on disk haven't actually been run in the database.
     |
     */
+    
 
     'migrations' => 'migrations',
 

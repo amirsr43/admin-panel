@@ -11,7 +11,7 @@ class Customer extends Model
 
     public function kategori()
     {
-        return $this->belongsTo(Kategori::class);
+        return $this->belongsTo(Kategori::class, 'kategori_id');
     }
 
 }

@@ -13,7 +13,7 @@ class ProductController extends Controller
     // Tambahkan middleware untuk API agar hanya bisa diakses oleh pengguna yang terautentikasi
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->only(['store', 'update', 'destroy', 'productsByCategory']);
+        $this->middleware('auth:sanctum')->only(['store', 'update', 'destroy']);
     }
 
     public function index()
@@ -29,7 +29,7 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'nullable|exists:categories,id'
         ]);
 
         $data = $request->all();
@@ -66,7 +66,7 @@ class ProductController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'nullable|exists:categories,id'
         ]);
 
         $data = $request->only(['name', 'category_id']);
@@ -116,4 +116,3 @@ class ProductController extends Controller
         return response()->json($products);
     }
 }
-

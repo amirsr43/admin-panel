@@ -8,9 +8,16 @@ use Illuminate\Support\Facades\File;
 
 class AssociationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $associations = Association::all();
+        $query = Association::query();
+
+        // Filter berdasarkan pencarian
+        if ($request->has('search') && $request->search) {
+            $query->where('name', 'LIKE', '%' . $request->search . '%');
+        }
+
+        $associations = $query->paginate(10);
         return view('admin.associations.index', compact('associations'));
     }
 
